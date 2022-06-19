@@ -1,0 +1,184 @@
+<section ng-controller="ListProductsController as vm" ng-init="vm.showCart()"> 
+    <div class="page-header">
+        <h2>Giỏ hàng</h2>
+        <!-- <p>{{_.size(vm.cart)}}</p> -->
+    </div>
+    <div ng-if="!vm.cart.length" class="" style="background-color: white;border-radius:10px; padding-bottom: 50px; padding-top: 50px; margin-bottom: 20px;">
+      <div style="text-align:center">
+        <img style="height: 200px;display: inline-block" src="http://img.websosanh.vn/v2/users/wss/images/creative-mini-shopping-cart/stc11qfvaba6i.jpg" alt="">
+        <p style="font-size: 30px; margin-top: 20px;">Không có sản phẩm nào trong giỏ hàng của bạn</p>
+      </div>
+    </div>
+    <div  ng-if="vm.cart.length">
+      <div class="" style="background-color: white;border-radius:10px; ">
+        <div class="panel-body">
+            <table
+              class="table table-condensed table-bordered table-hover"
+              ng-table="vm.cartTable"
+            >
+              <colgroup>
+                <col width="3%" />
+                <col width="45%" />
+                <col width="15%" />
+                <col width="5%" />
+                <col width="15%" />
+                <col width="5%" />
+              </colgroup>
+              <tr ng-repeat="item in $data">
+                <td style="text-align: center;" data-title="'STT'" class="text-center">{{ $index + 1 }}</td>
+                <td
+                  data-title="'Tên sản phẩm'"
+                >
+                <div>
+                    <img src="{{item.image}}" alt="" style="width:100px;height:100px;float: left; margin-right: 10px;">
+                    <div >{{item.name}}</div>
+                </div>
+                  
+                </td>
+                <td
+                  class="text-center"
+                  data-title="'Đơn giá'"
+                  style="font-size:15px;font-weight: bold;"
+                >
+                  {{item.price | number}}<b style="font-size: 16px;">₫</b>
+                  <span style="font-size: 12px; color: #888;text-decoration: line-through;">{{item.proPrice | number}} ₫</span>
+                </td>
+                <td
+                data-title="'Số lượng'"
+                >
+                    <input
+                      data-cy="quantity"
+                      type="number"
+                      size="10"
+                      min="1"
+                      style="width: 80px; height: 30px;font-size:18px"
+                      ng-model="item.buyQuantity"
+                      ng-change="vm.calculate(item)"
+                      ng-model-options="{updateOn: 'default blur', debounce: {default: 600, blur: 0}}"
+                    />
+                  </td>
+                  <td
+                  class="text-center"
+                  data-title="'Thành tiền'"
+                  style="color:red;font-size:15px;font-weight: bold;"
+                >
+                {{item.price * item.buyQuantity| number:0}}<b style="font-size: 16px;">₫</b> 
+                </td>
+                <td class="text-center" data-title="'Xóa'">
+                  <button
+                    type="button"
+                    class="btn btn-info btn-sm"
+                    ng-click="vm.removeItem(item)"
+                  >
+                  <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                </td>
+              </tr>
+              <tfoot>
+                <tr ng-if="vm.order.deliveryAddress">
+                  <td style="font-size:18px;font-weight: bold;" colspan="4">Tiền ship:</td>
+                  <td style="font-size:18px;font-weight: bold;color:red; text-align: right;">{{30000| number:0}}<b style="font-size: 16px;">₫</b>
+                 </td>
+                  <td ></td>
+                </tr>
+                <tr>
+                    <td style="font-size:20px;font-weight: bold;" colspan="4">Tổng tiền cần thanh toán:</td>
+                    <td ng-if="vm.order.deliveryAddress" style="font-size:20px;font-weight: bold;color:red; text-align: right;">{{vm.summaryPrice + 30000| number:0}}<b>₫</b>
+                        <div style="font-style: italic;color: #222;font-size:15px; ">(Đã bao gồm VAT nếu có)</div>
+                    </td>
+                    <td ng-if="!vm.order.deliveryAddress" style="font-size:20px;font-weight: bold;color:red; text-align: right;">{{vm.summaryPrice | number:0}}<b>₫</b>
+                      <div style="font-style: italic;color: #222;font-size:15px; ">(Đã bao gồm VAT nếu có)</div>
+                  </td>
+                    <td></td>
+                  </tr>
+              </tfoot>
+            </table>
+          </div>
+    </div>
+    <div style="background-color: white;border-radius:10px; margin-top: 20px; margin-bottom: 20px; padding: 10px 20px 30px 20px; width: 1200px; float: left;">
+        <h3>Thông tin người mua</h3>
+        <hr>
+        <div class="form-group row">
+            <span style="color: red; padding-left: 15px; font-style: italic">* Các mục đanh dấu (*) là bắt buộc</span>
+        </div>
+        <div class="form-group row">
+            <label for="" class="col-sm-2 col-form-label">Họ tên <span style="color: red;">(*)</span></label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                placeholder="Họ và tên người nhận"
+                ng-model="vm.order.deliveryName"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Số điện thoại <span style="color: red;">(*)</span></label>
+            <div class="col-sm-10">
+              <input
+                id="phone"
+                type="text"
+                class="form-control"
+                placeholder="Nhập số điện thoại"
+                ng-model="vm.order.deliveryPhone"
+              ></input>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-sm-2 col-form-label">Email <span style="color: red;">(*)</span></label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                placeholder="Nhập email"
+                ng-model="vm.order.deliveryEmail"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-sm-2 col-form-label">Địa chỉ <span style="color: red;">(*)</span></label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                placeholder="Nhập địa chỉ"
+                ng-model="vm.order.deliveryAddress"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 control-label" for="">Phương thức thanh toán <span style="color: red;">(*)</span></label>
+            <div class="col-sm-10">
+              <select ng-model="vm.order.deliveryPaymentMethod" class="form-control">
+                <option value="" disabled>Chọn phương thức thanh toán</option>
+                <option value="cashPayment" >Thanh toán tiền mặt khi nhận hàng (tiền mặt / quẹt thẻ ATM, Visa, Master)</option>
+                <option value="viaBankTransferPayment" >Thanh toán qua chuyển khoản qua tài khoản ngân hàng (khuyên dùng)</option>
+                <option value="onlinePayment" >Thanh toán trực tuyến (Bằng thẻ ATM/Visa/Master qua cổng VnPay)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 control-label" for="">Ghi chú</label>
+            <div class="col-sm-10">
+                <textarea ng-model="vm.order.note" placeholder="Ghi chú" class="form-control" rows="5" id="comment"></textarea>
+            </div>
+          </div>    
+    </div>
+    <div style="margin-top: 20px; margin-right: 20px; float: right; ">
+            <ul>
+                <li style="margin-bottom: 5px;">
+                    <button  class="btn" style="background-color: #ed1b24; width: 330px; color: white;font-size:18px;font-weight: bold;" 
+                    ng-click="vm.ordered()"><span class="glyphicon glyphicon-ok"></span> ĐẶT HÀNG</button>
+                </li>
+                <li>
+                    <button  class="btn" style="background-color: #fea23b; width: 330px; color: white;font-size:18px;font-weight: bold;" ui-sref="home"><i style="font-size:24px" class="fa">&#xf290;</i> CHỌN THÊM SẢN PHẨM</button>
+                </li>
+            </ul>
+    </div>
+  </div>
+    
+    
+</section>

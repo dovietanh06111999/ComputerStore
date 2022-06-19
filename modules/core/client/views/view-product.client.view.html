@@ -1,0 +1,120 @@
+<section ng-controller="ListProductsController as vm" ng-init="vm.viewProduct();vm.loadComment()"> 
+    <div style="height: 100px;"></div>
+      <div style="background-color: white;border-radius:10px; margin-bottom: 20px;padding-bottom: 10px;">
+        <div style="margin: 0px 20px 20px 20px; overflow: hidden;">
+            <div style="height: 20px;"></div>
+            <span  style="font-weight: bold; font-size: 20px;" >{{vm.productFindById.name}}</span>
+            <hr style="border: 1px solid black;">
+            <div style="width: 1100px;overflow: hidden; float: left;">
+                <div style="overflow: hidden">
+                    <img style="padding: 1px 1px 1px 1px;float: left;width:400px;" src="{{vm.productFindById.image}}" alt="">
+                    <div style="float: right; width: 680px;">
+                        <div style="margin-bottom: 20px; padding: 10px 5px 10px 15px;border: 1px dashed rgb(192, 192, 192);border-radius: 10px;">
+                            <span style="font-weight: bold;">{{vm.productFindById.detail}}</span>
+                        </div>
+                        <div style="margin-bottom: 20px; padding: 10px 5px 15px 15px;border: 1px dashed rgb(192, 192, 192);border-radius: 10px;">
+                            <span style="font-weight: bold; font-size: 27px; color: #bf081f;">{{vm.productFindById.price| number:0}}<b style="">₫</b>&nbsp</span>
+                            <span style="font-size: 20px; color: #888;text-decoration: line-through;"> {{vm.productFindById.proPrice | number}} ₫</span>
+                            <span style="font-size: 15px; color: #bf081f;">&nbsp Tiết kiệm {{vm.productFindById.proPrice - vm.productFindById.price | number}}<b style="">₫</b></span>
+                            <br>
+                            <div class="label label-default" style="font-size: 13px;">Giá đã có VAT</div>
+                        </div>
+                        <div style="margin-bottom: 20px; padding: 10px 5px 10px 15px;">
+                            <span>Sản phẩm có sẵn: {{vm.productFindById.quantity}}</span>
+                            <br>
+                            <br>
+                            <span style="font-weight: bold;font-size:18px">Số lượng: </span>
+                            <input
+                                data-cy="quantity"
+                                type="number"
+                                size="10"
+                                min="1"
+                                max="{{vm.productFindById.quantity}}"
+                                style="width: 80px;margin-left: 10px; height: 28px;font-size:18px"
+                                ng-model="vm.buyQuantity"
+                                ng-model-options="{updateOn: 'default blur', debounce: {default: 600, blur: 0}}"
+                            />
+                            <button
+                                type="button"
+                                class="btn btn-info btn-sm"
+                                ng-click="vm.addToCart(vm.productFindById)"
+                                style="margin-left: 10px;"
+                                >
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                Thêm vào giỏ hàng
+                            </button>
+                        </div>
+                        <div style="margin-bottom: 20px; border: 1px solid rgb(192, 192, 192);border-radius: 10px;">
+                            <div style="border-bottom: 1px solid rgb(192, 192, 192);padding: 10px 10px 10px 10px; font-size: 18px;">
+                                <span style="color: red;font-weight: bold;"><i class="fas fa-gift"></i> Quà tặng và ưu đãi kèm theo</span>
+                                <br>
+                            </div>
+                            <div style="padding: 10px 10px 10px 10px; font-size: 18px;">
+                                <span style="color: red;font-weight: bold;">{{vm.productFindById.specification}}</span>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 20px; border: 1px solid rgb(192, 192, 192);border-radius: 10px;">
+                            <div style="border-bottom: 1px solid rgb(192, 192, 192);padding: 10px 10px 10px 10px; font-size: 18px;">
+                                <span style="font-weight: bold;">Mô tả chi tiết sản phẩm</span>
+                                <br>
+                            </div>
+                            <div style="padding: 10px 10px 10px 10px; font-size: 18px;">
+                                <span >{{vm.productFindById.description}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div style="margin-bottom: 20px;overflow: hidden; padding: 10px 10px 10px 15px;border: 1px dashed rgb(192, 192, 192);border-radius: 10px;">
+                    <div>
+                        <textarea ng-model="vm.comment.detail" placeholder="Mời bạn để lại bình luận" name="" id="" class="form-control" rows="5"></textarea>
+                    </div>
+                    <button
+                        type="button"
+                        class="btn btn-info btn-sm"
+                        ng-click="vm.addComment()"
+                        style="margin-top: 10px;"
+                        >
+                        Gửi bình luận
+                    </button>
+                    <hr>
+                    <div  ng-repeat="comment in vm.comments" style="margin-bottom: 20px;overflow: hidden; padding: 10px 5px 10px 15px;border: 1px solid rgb(192, 192, 192);border-radius: 10px;">
+                        <div>
+                            {{comment.createdBy.displayName}} -
+                            {{comment.createdAt}} :
+                            {{comment.detail}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="width: 420px;float: right;">
+                <div style="margin-bottom: 20px; border: 1px solid rgb(192, 192, 192);border-radius: 10px;">
+                    <div style="border-bottom: 1px solid rgb(192, 192, 192);padding: 10px 10px 10px 10px; font-size: 18px;">
+                        <span style="font-weight: bold;">YÊN TÂM MUA HÀNG</span>
+                        <br>
+                    </div>
+                    <div style="padding: 10px 10px 10px 10px; font-size: 18px;">
+                        <p>Uy tín 20 năm xây dựng và phát triển</p>
+                        <p>Sản phẩm chính hãng 100%</p>
+                        <p>Trả góp lãi suất 0% toàn bộ giỏ hàng</p>
+                        <p>Trả bảo hành tận nơi sử dụng</p>
+                        <p>Bảo hành tận nơi cho doanh nghiệp</p>
+                        <p>Vệ sinh miễn phí trọn đời PC, Laptop</p>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px; border: 1px solid rgb(192, 192, 192);border-radius: 10px;">
+                    <div style="border-bottom: 1px solid rgb(192, 192, 192);padding: 10px 10px 10px 10px; font-size: 18px;">
+                        <span style="font-weight: bold;">MIỄN PHÍ GIAO HÀNG</span>
+                        <br>
+                    </div>
+                    <div style="padding: 10px 10px 10px 10px; font-size: 18px;">
+                        <p>Giao hàng siêu tốc trong 2h</p>
+                        <p>Giao hàng miễn phí toàn quốc</p>
+                        <p>Nhận hàng và thanh toán tại nhà (ship COD)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+</section>

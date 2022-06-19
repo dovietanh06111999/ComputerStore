@@ -1,0 +1,62 @@
+<section ng-controller="ListProductsController as vm" ng-init="vm.getListPosts()"> 
+    <div class="page-header" style="border-bottom: 2px solid #3c4a65; ">
+      <h2 style="color:#3c4a65">Tin Tức</h2>
+      <!-- <p>{{_.size(vm.cart)}}</p> -->
+  </div>
+      <div style="background-color: white;border-radius:10px; padding-bottom: 50px; padding-top: 20px; padding-left: 20px; margin-bottom: 20px;">
+        <div class="row">
+            <div class="row" style="padding-left: 20px;">
+              <div ng-repeat="post in vm.posts" class="col-sm-4" style="width: 385px;">
+                <div class="thumbnail">
+                  <div class="caption text-center" ng-click="vm.getPost(post)">
+                    <div class="position-relative">
+                      <!-- <img ng-if="product.price>=10000000"
+                      src="https://bepviet.vn/media/lib/bh-5-nam.png" style="width:85px;height:80px;position:absolute;
+                      top: 20px;
+                      left: 30px;" alt="">
+  
+                      <img ng-if="product.price < 10000000"
+                      src="https://mcdn.nhanh.vn/store/15402/ps/20190817/bao_hanh_1_nam.png" style="width:85px;height:80px;position:absolute;
+                      top: 20px;
+                      left: 30px;" alt=""> -->
+                      <img src="{{post.image}}" style="width:330px;height:250px;" />
+                    </div>
+                    <!-- <h4 id="thumbnail-label"><a href="https://flow.microsoft.com/en-us/connectors/shared_slack/slack/" target="_blank">Microsoft Slack</a></h4>
+                    <p><i class="glyphicon glyphicon-user light-red lighter bigger-120"></i>&nbsp;Auditor</p> -->
+                   <br>
+                    <div 
+                    style="text-transform: uppercase; 
+                          text-align: left;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          line-height: 25px;
+                          -webkit-line-clamp: 2;
+                          height: 50px;
+                          display: -webkit-box;
+                          -webkit-box-orient: vertical;
+                          font-weight: bold;
+                          "
+                          >{{post.title}}</div>
+                  </div>
+                  <div class="caption card-footer">
+                   
+                    <div><span class="glyphicon">&#xe109;</span> 
+                        <span>
+                            {{post.createdAt}}
+                        </span>
+                    
+                    </div>
+        
+                    <div style="height: 10px;"></div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+  
+          
+         
+        </div>
+        <!--  -->
+      </div>
+  </section>

@@ -1,0 +1,66 @@
+<section ng-controller="CommentsController as vm" ng-init="vm.init()">
+  <div class="page-header">
+    <h1>Danh sách bình luận</h1>
+  </div>
+  <div class="panel-body">
+    <table
+      class="table table-condensed table-bordered table-hover"
+      ng-table="vm.commentTable"
+    >
+      <colgroup>
+        <col width="5%" />
+        <col width="10%" />
+        <col width="40%" />
+        <col width="10%" />
+        <col width="10%" />
+      </colgroup>
+      <tr ng-repeat="comment in $data">
+        <td data-title="'STT'" class="text-center">{{ $index + 1 }}</td>
+        <td
+          class="text-center"
+          data-title="'Tên người tạo'"
+          data-filter="{'createdBy.displayName': 'text'}"
+          sortable="'createdBy.displayName'"
+        >
+          {{comment.createdBy.displayName}}
+        </td>
+        <td
+          class="text-center"
+          data-title="'Nội dung'"
+          data-filter="{detail: 'text'}"
+          sortable="'detail'"
+        >
+          {{comment.detail}}
+        </td>
+        <td
+          class="text-center"
+          data-title="'Ngày tạo'"
+          data-filter="{createdAt: 'text'}"
+          sortable="'createdAt'"
+        > 
+          {{comment.createdAt}}
+        </td>
+        <td class="text-center" data-title="'Tác vụ'">
+          <!-- <button
+            type="button"
+            class="btn btn-primary btn-xs"
+            ng-click="vm.activeComment()"
+          >
+          <i class="glyphicon glyphicon-pencil"></i>
+          Duyệt
+          </button> -->
+          <button
+            type="button"
+            class="btn btn-danger btn-xs"
+            ng-click="vm.remove($index, comment)"
+          >
+          <i class="glyphicon glyphicon-trash"></i>
+          Xóa
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  
+</section>

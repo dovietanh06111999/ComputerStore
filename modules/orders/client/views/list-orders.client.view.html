@@ -1,0 +1,81 @@
+<section ng-controller="OrdersController as vm" ng-init="vm.init()">
+  <div class="page-header">
+    <h1>Danh sách danh đơn hàng</h1>
+  </div>
+  <div class="panel-body">
+    <table
+      class="table table-condensed table-bordered table-hover"
+      ng-table="vm.orderTable"
+    >
+      <colgroup>
+        <col width="5%" />
+        <col width="20%" />
+        <col width="20%" />
+        <col width="20%" />
+        <col width="20%" />
+        <col width="10%" />
+      </colgroup>
+      <tr ng-repeat="order in $data">
+        <td data-title="'STT'" class="text-center">{{ $index + 1 }}</td>
+        <td
+          class="text-center"
+          data-title="'Tên khách hàng'"
+          data-filter="{deliveryName: 'text'}"
+          sortable="'deliveryName'"
+        >
+          {{order.deliveryName}}
+        </td>
+        <td
+          class="text-center"
+          data-title="'Trạng thái'"
+          data-filter="{status: 'select'}"
+          filter-data="vm.getStatus()"
+          sortable="'status'"
+        > 
+        <span
+                class="label"
+                ng-class="{
+                          'label-default': order.status === 'pending',
+                          'label-info': order.status === 'shipping',
+                          'label-success': order.status === 'done',
+                          'label-danger': order.status === 'deleted',
+                        }"
+                >{{order.vnStatus}}
+              </span>
+        </td>
+        <td
+          class="text-center"
+          data-title="'Giá trị đơn hàng'"
+          sortable="'totalPrice'"
+        > 
+          {{order.totalPrice| number}}<b style="font-size: 16px;">₫</b>
+        </td>
+        <td
+          class="text-center"
+          data-title="'Ngày tạo'"
+          sortable="'createdAt'"
+        > 
+          {{order.createdAt}}
+        </td>
+        <td class="text-center" data-title="'Tác vụ'">
+          <button
+            type="button"
+            class="btn btn-primary btn-xs"
+            ui-sref="editOrder({orderId: order._id})"
+          >
+          <i class="glyphicon glyphicon-pencil"></i> Xử lý
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger btn-xs"
+            ng-click="vm.remove($index, order)"
+          >
+          <i class="glyphicon glyphicon-trash"></i> Xóa
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  
+</section>

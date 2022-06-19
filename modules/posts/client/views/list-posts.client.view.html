@@ -1,0 +1,66 @@
+<section ng-controller="PostsController as vm" ng-init="vm.init()">
+  <div class="page-header">
+    <h1>Danh sách bài viết</h1>
+    <button type="button" class="btn btn-primary" ui-sref="createPost">
+      Tạo bài viết mới
+    </button>
+  </div>
+  <div class="panel-body">
+    <table
+      class="table table-condensed table-bordered table-hover"
+      ng-table="vm.postTable"
+    >
+      <colgroup>
+        <col width="3%" />
+        <col width="30%" />
+        <col width="30%" />
+        <col width="15%" />
+        <col width="7%" />
+      </colgroup>
+      <tr ng-repeat="post in $data">
+        <td data-title="'STT'" class="text-center">{{ $index + 1 }}</td>
+        <td
+          class="text-center"
+          data-title="'Tiêu đề'"
+          data-filter="{title: 'text'}"
+          sortable="'title'"
+        >
+          {{post.title}}
+        </td>
+        <td
+          class="text-center"
+          data-title="'Ảnh'"
+        >
+          <img src="{{post.image}}" alt="Mountain View" style="width:200px;height:76px;">
+        </td>
+        <td
+          class="text-center"
+          data-title="'Ngày tạo'"
+          data-filter="{createdAt: 'text'}"
+          sortable="'createdAt'"
+        >
+          {{post.createdAt}}
+        </td>
+        
+        <td class="text-center" data-title="'Tác vụ'">
+          <button
+            type="button"
+            class="btn btn-primary btn-xs"
+            ui-sref="editPost({postId: post._id})"
+          >
+          <i class="glyphicon glyphicon-pencil"> Sửa</i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger btn-xs"
+            ng-click="vm.remove($index, post)"
+          >
+          <i class="glyphicon glyphicon-trash"> Xóa</i>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  
+</section>

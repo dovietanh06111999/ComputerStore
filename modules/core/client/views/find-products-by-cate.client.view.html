@@ -1,0 +1,87 @@
+<section ng-controller="ListProductsController as vm" ng-init="vm.viewProductByCategory()"> 
+    <div class="page-header" style="border-bottom: 2px solid #3c4a65; ">
+      <h2 style="color:#3c4a65">{{vm.categoryName}}</h2>
+     
+  </div>
+  <div style="margin-bottom: 20px;overflow: hidden; padding: 10px 10px 10px 15px;border: 1px dashed rgb(192, 192, 192);border-radius: 10px;">
+    Lọc theo giá tiền: &nbsp
+    <input type="number" min="0" ng-model="vm.startPrice" placeholder="100000">&nbsp₫ &nbsp-&nbsp 
+    <input type="number" min="0" ng-model="vm.endPrice" placeholder="1000000">&nbsp₫
+    &nbsp&nbsp&nbsp
+    <button class="btn btn-info btn-sm" ng-click="vm.filterByPrice2()">Lọc</button>
+  </div>
+      <div style="background-color: white;border-radius:10px; padding-bottom: 50px; padding-top: 20px; padding-left: 20px; margin-bottom: 20px;">
+        <div class="row">
+          
+          
+            
+            <div class="row" style="padding-left: 20px;">
+              <div ng-repeat="product in vm.productsFindByCategory" class="col-sm-4" style="width: 310px;">
+                <div class="thumbnail">
+                  <div class="caption text-center" ng-click="vm.findProductById(product)">
+                    <div class="position-relative">
+                      <img ng-if="product.price>=10000000"
+                      src="https://bepviet.vn/media/lib/bh-5-nam.png" style="width:85px;height:80px;position:absolute;
+                      top: 20px;
+                      left: 30px;" alt="">
+  
+                      <img ng-if="product.price < 10000000"
+                      src="https://mcdn.nhanh.vn/store/15402/ps/20190817/bao_hanh_1_nam.png" style="width:85px;height:80px;position:absolute;
+                      top: 20px;
+                      left: 30px;" alt="">
+                      <img src="{{product.image}}" style="width:250px;height:250px;" />
+                    </div>
+                    <!-- <h4 id="thumbnail-label"><a href="https://flow.microsoft.com/en-us/connectors/shared_slack/slack/" target="_blank">Microsoft Slack</a></h4>
+                    <p><i class="glyphicon glyphicon-user light-red lighter bigger-120"></i>&nbsp;Auditor</p> -->
+                    <div 
+                    style="text-transform: uppercase; 
+                          text-align: left;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          line-height: 25px;
+                          -webkit-line-clamp: 3;
+                          height: 75px;
+                          display: -webkit-box;
+                          -webkit-box-orient: vertical;
+                          font-weight: bold;
+                          "
+                          >{{product.name}}</div>
+                  </div>
+                  <div class="caption card-footer">
+                    <div ng-if="product.quantity!==0">
+                      <span style="font-size: 15px; color: #888;text-decoration: line-through;">{{product.proPrice | number}} ₫</span> <span style="color: red;font-size: 13px;">(Tiết kiệm:{{product.discount}}%)</span>
+                      <br>
+                      <span style="font-weight: bold;font-size: 25px;">{{product.price | number}}<b>₫</b></span>
+  <br>
+                      <span class="p-qty" style="color:  #2cc067;">  
+                        <i class="fa fa-check" aria-hidden="true"></i> Còn hàng  
+                      </span>
+                      <button
+                        type="button"
+                        class="btn btn-info btn-sm"
+                        ng-click="vm.addToCart(product)"
+                        style="float: right;"
+                      >
+                      <span class="glyphicon glyphicon-shopping-cart"></span>
+                      </button>
+                    </div>
+                    
+                    <div ng-if="product.quantity===0">
+                      <span style="font-weight: bold;font-size: 25px;">Liên hệ</span>
+                      <span class="p-qty" style="color: #0074da;">
+                        <i class="fas fa-phone fa-flip-horizontal"></i> Liên hệ</span>
+                      <div style="height: 10px;"></div>
+                    </div>
+                    <div style="height: 10px;"></div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+  
+          
+         
+        </div>
+        <!--  -->
+      </div>
+  </section>

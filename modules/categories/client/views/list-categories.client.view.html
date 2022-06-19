@@ -1,0 +1,58 @@
+<section ng-controller="CategoriesController as vm" ng-init="vm.init()">
+  <div class="page-header">
+    <h1>Danh sách danh mục sản phẩm</h1>
+    <button type="button" class="btn btn-primary" ui-sref="createCategory">
+      Tạo danh mục sản phẩm mới
+    </button>
+  </div>
+  <div class="panel-body">
+    <table
+      class="table table-condensed table-bordered table-hover"
+      ng-table="vm.categoryTable"
+    >
+      <colgroup>
+        <col width="5%" />
+        <col width="35%" />
+        <col width="20%" />
+        <col width="10%" />
+      </colgroup>
+      <tr ng-repeat="category in $data">
+        <td data-title="'STT'" class="text-center">{{ $index + 1 }}</td>
+        <td
+          class="text-center"
+          data-title="'Tên danh mục'"
+          data-filter="{name: 'text'}"
+          sortable="'name'"
+        >
+          {{category.name}}
+        </td>
+        <td
+          class="text-center"
+          data-title="'Ngày tạo'"
+          data-filter="{createdAt: 'text'}"
+          sortable="'createdAt'"
+        > 
+          {{category.createdAt}}
+        </td>
+        <td class="text-center" data-title="'Tác vụ'">
+          <button
+            type="button"
+            class="btn btn-primary btn-xs"
+            ui-sref="editCategory({categoryId: category._id})"
+          >
+          <i class="glyphicon glyphicon-pencil"> Sửa</i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger btn-xs"
+            ng-click="vm.remove($index, category)"
+          >
+          <i class="glyphicon glyphicon-trash"> Xóa</i>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  
+</section>

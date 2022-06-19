@@ -1,0 +1,100 @@
+<div class="container" style="height: 120px; padding-top: 10px;" ng-controller="HeaderController as vm" ng-init="vm.getCategories()">
+  <div class="navbar-header">
+    <button class="navbar-toggle" type="button" ng-click="vm.isCollapsed = !vm.isCollapsed">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <div id="logo">
+      <a ui-sref="home" >
+        <img style="width:100px" src="https://hanoicomputercdn.com/media/lib/19-02-2022/logo-hacomtrangch.png" alt="Cửa hàng">
+      </a>
+    </div>
+  </div>
+  <nav class="navbar-collapse" uib-collapse="!vm.isCollapsed" role="navigation">
+    <ul class="nav navbar-nav" ng-if="vm.menu.shouldRender(vm.authentication.user);">
+      <li ng-repeat="item in vm.menu.items | orderBy: 'position'" ng-if="item.shouldRender(vm.authentication.user);" ng-switch="item.type" ng-class="{ dropdown: item.type === 'dropdown' }" ui-sref-active="active" class="{{item.class}}" uib-dropdown="item.type === 'dropdown'">
+        <a ng-switch-when="dropdown" class="dropdown-toggle" uib-dropdown-toggle role="button">{{::item.title}}&nbsp;<span class="caret"></span></a>
+        <ul ng-switch-when="dropdown" class="dropdown-menu">
+          <li ng-repeat="subitem in item.items | orderBy: 'position'" ng-if="subitem.shouldRender(vm.authentication.user);">
+            <a ui-sref="{{subitem.state}}({{subitem.params}})" ng-bind="subitem.title"></a>
+          </li>
+        </ul>
+        <a ng-switch-default ui-sref="{{item.state}}" ng-bind="item.title"></a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" ng-hide="vm.authentication.user">
+      <li ui-sref-active="active">
+        <a ui-sref="authentication.signup">Đăng ký</a>
+      </li>
+      <li class="divider-vertical"></li>
+      <li ui-sref-active="active">
+        <a ui-sref="authentication.signin">Đăng nhập</a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" ng-show="vm.authentication.user">
+      <li class="dropdown" uib-dropdown>
+        <a class="dropdown-toggle user-header-dropdown-toggle" uib-dropdown-toggle role="button">
+          <img ng-src="{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="header-profile-image" />
+          <span ng-bind="vm.authentication.user.displayName"></span> <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li ui-sref-active="active" ng-repeat="item in vm.accountMenu.items">
+            <a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="/api/auth/signout" target="_self">Signout</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+      <div class="header-bottom">                                 
+        <div style=" ">
+          <div class="dropdown" style=" margin: 0 ;box-sizing: border-box">
+            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:#fa9f2c; color: black;font-weight:700">DANH MỤC SẢN PHẨM
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li ng-repeat="category in vm.categories" style=" height: 30px; border-bottom: 1px solid #dadada"><a class="dropdown-item" ng-click="vm.findProductsByCategory(category)">{{category.name}}</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input style="width:800px" type="text" class="form-control" placeholder="Nhập tên sản phẩm, từ khóa tìm kiếm" id="txtSearch" ng-model="vm.keyword"/>
+              <div class="input-group-btn">
+                <button class="btn "style="background:#fa9f2c; color: black;font-weight:700;width: 100px;" ng-click="vm.search()">
+                  <span style="font-weight: bold;" class="glyphicon glyphicon-search"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <ul>
+          <li><button ng-click="vm.viewShoppingCart()" class="cart-summary" style="float: right; width: 120px; height: 45px; background-color: #fa9f2c; margin-right: 20px; margin-top: 0px;border-radius: 10px; border: none;">
+            <div style="background-color: white;width: 35px; height: 35px; border-radius: 30px; float: left; margin-top: 4px; margin-left: 9px;">
+              <i style='font-size:24px;color: rgb(38, 22, 115); float: left; padding-top: 5px ; padding-left: 7px;' class='fas'>&#xf290;</i>
+            </div>
+            <p style="float: right; color:black;font-weight: bold;  padding-top: 12px; padding-right: 9px;">Giỏ hàng</p>
+          </button></li>
+          <li><button ui-sref="create-contact" class="cart-summary" style="float: right; width: 120px; height: 45px; background-color: #fa9f2c; margin-right: 20px; margin-top: 0px;border-radius: 10px; border: none;">
+            <div style="background-color: white;width: 35px; height: 35px; border-radius: 30px; float: left; margin-top: 4px; margin-left: 9px;">
+              <i style='font-size:24px;color: rgb(38, 22, 115); float: left; padding-top: 6px ; padding-left: 5px;' class="material-icons">&#xe0d0;</i>
+            </div>
+            <p style="float: right; color:black;font-weight: bold;  padding-top: 12px; padding-right: 15px;">Liên hệ</p>
+          </button></li>
+          <li><button ui-sref="list-posts" class="cart-summary" style="float: right; width: 120px; height: 45px; background-color: #fa9f2c; margin-right: 20px; margin-top: 0px;border-radius: 10px; border: none;">
+            <div style="background-color: white;width: 35px; height: 35px; border-radius: 30px; float: left; margin-top: 4px; margin-left: 9px;">
+              <i class="material-icons" style='font-size:24px;color: rgb(38, 22, 115); float: left; padding-top: 6px ; padding-left: 6px;'>&#xe8a5;</i>
+            </div>
+            <p style="float: right; color:black;font-weight: bold;  padding-top: 12px; padding-right: 15px;">Tin tức</p>
+          </button></li>
+        </ul>
+        
+        
+      </div>
+    
+</div>

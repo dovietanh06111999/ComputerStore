@@ -1,0 +1,54 @@
+<section ng-controller="ListProductsController as vm" ng-init="vm.viewPost()"> 
+    <div style="height: 100px;"></div>
+      <div style="background-color: white;border-radius:10px; margin-bottom: 20px;padding-bottom: 10px;">
+        <div style="margin: 0px 20px 20px 20px; overflow: hidden;">
+            <div style="height: 20px;"></div>
+            <div style="width: 1100px;overflow: hidden; float: left;">
+                <div >
+                    <span  style="font-weight: bold; font-size: 25px;" >{{vm.postFindById.title}}</span>
+                    
+                    <hr>
+                    <div style="float: right; width: 100%;">
+                        <div style="margin-bottom: 20px; padding: 10px 5px 10px 15px;border: 1px dashed rgb(192, 192, 192);border-radius: 10px;">
+                            <span style="font-weight: bold;">Đăng bởi: {{vm.postFindById.createdBy.displayName}} - {{vm.postFindById.createdAt}}</span>
+                        </div>
+                        <img style="padding: 10px 0px 10px 50px; border-radius: 10px;width: 1000px;" src="{{vm.postFindById.image}}" alt="">
+                        
+                <div style="padding: 10px 0px 10px 50px;width: 1000px;">
+                    &nbsp &nbsp &nbsp{{vm.postFindById.detail}}
+                </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div style="width: 420px;float: right;">
+                <div style="margin-bottom: 20px; border: 1px solid rgb(192, 192, 192);border-radius: 10px;">
+                    <div style="border-bottom: 1px solid rgb(192, 192, 192);padding: 10px 10px 10px 10px; font-size: 18px;">
+                        <span style="font-weight: bold;">YÊN TÂM MUA HÀNG</span>
+                        <br>
+                    </div>
+                    <div style="padding: 10px 10px 10px 10px; font-size: 18px;">
+                        <p>Uy tín 20 năm xây dựng và phát triển</p>
+                        <p>Sản phẩm chính hãng 100%</p>
+                        <p>Trả góp lãi suất 0% toàn bộ giỏ hàng</p>
+                        <p>Trả bảo hành tận nơi sử dụng</p>
+                        <p>Bảo hành tận nơi cho doanh nghiệp</p>
+                        <p>Vệ sinh miễn phí trọn đời PC, Laptop</p>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px; border: 1px solid rgb(192, 192, 192);border-radius: 10px;">
+                    <div style="border-bottom: 1px solid rgb(192, 192, 192);padding: 10px 10px 10px 10px; font-size: 18px;">
+                        <span style="font-weight: bold;">MIỄN PHÍ GIAO HÀNG</span>
+                        <br>
+                    </div>
+                    <div style="padding: 10px 10px 10px 10px; font-size: 18px;">
+                        <p>Giao hàng siêu tốc trong 2h</p>
+                        <p>Giao hàng miễn phí toàn quốc</p>
+                        <p>Nhận hàng và thanh toán tại nhà (ship COD)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+</section>

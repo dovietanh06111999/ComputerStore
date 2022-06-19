@@ -1,0 +1,77 @@
+<section>
+  <div class="page-header">
+    <h1>Danh sách người dùng</h1>
+    <button type="button" class="btn btn-primary" ui-sref="admin.user-create">
+      Tạo người dùng mới
+    </button>
+  </div>
+  
+    <div class="panel-body">
+      <table
+      class="table table-condensed table-bordered table-hover"
+      ng-table="vm.userTable"
+    >
+      <colgroup>
+        <col width="3%" />
+        <col width="20%" />
+        <col width="27%" />
+        <col width="20%" />
+        <col width="20%" />
+        <col width="10%" />
+      </colgroup>
+      <tr ng-repeat="user in $data">
+        <td data-title="'STT'" class="text-center">{{ $index + 1 }}</td>
+        <td
+          class="text-center"
+          data-title="'Tên'"
+          data-filter="{displayName: 'text'}"
+          sortable="'displayName'"
+        >
+          {{user.displayName}}
+        </td>
+        <td
+          class="text-center"
+          data-title="'Địa chỉ'"
+          data-filter="{'address': 'text'}"
+          sortable="'address'"
+        >
+          {{user.address}}
+        </td>
+        <td
+          class="text-center"
+          data-title="'Email'"
+          data-filter="{'email': 'text'}"
+          sortable="'email'"
+        >
+          {{user.email}}
+        </td>
+        <td
+          class="text-center"
+          data-title="'SĐT'"
+          data-filter="{'phone': 'text'}"
+          sortable="'phone'"
+        >
+          {{user.phone}}
+        </td>
+        <td data-title="'Tác vụ'" class="text-center">
+          <button
+            type="button"
+            class="btn btn-primary btn-xs"
+            ui-sref="admin.user-edit({userId: user._id})"
+          >
+            <i class="glyphicon glyphicon-pencil"> Sửa</i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger btn-xs"
+            ng-click="vm.remove(user)"
+          >
+            <i class="glyphicon glyphicon-trash"> Xóa</i>
+          </button>
+        </td>
+      </tr>
+    </table>
+    </div>
+    
+  
+</section>

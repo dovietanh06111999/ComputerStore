@@ -1,0 +1,60 @@
+<section ng-controller="TopicsController as vm" ng-init="vm.init()">
+  <div class="page-header">
+    <h1>Danh sách chủ đề</h1>
+    <button type="button" class="btn btn-primary" ui-sref="createTopic">
+      Tạo chủ đề mới
+    </button>
+  </div>
+  <div class="panel-body">
+    <table
+      class="table table-condensed table-bordered table-hover"
+      ng-table="vm.topicTable"
+    >
+      <colgroup>
+        <col width="5%" />
+        <col width="30%" />
+        
+        <col width="20%" />
+        <col width="10%" />
+      </colgroup>
+      <tr ng-repeat="topic in $data">
+        <td data-title="'STT'" class="text-center">{{ $index + 1 }}</td>
+        <td
+          class="text-center"
+          data-title="'Tên chủ đề'"
+          data-filter="{name: 'text'}"
+          sortable="'name'"
+        >
+          {{topic.name}}
+        </td>
+       
+        <td
+          class="text-center"
+          data-title="'Ngày tạo'"
+          data-filter="{code: 'text'}"
+          sortable="'code'"
+        >
+          {{topic.createdAt}}
+        </td>
+        <td class="text-center" data-title="'Tác vụ'">
+          <button
+            type="button"
+            class="btn btn-primary btn-xs"
+            ui-sref="editTopic({topicId: topic._id})"
+          >
+          <i class="glyphicon glyphicon-pencil"> Sửa</i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger btn-xs"
+            ng-click="vm.remove($index, topic)"
+          >
+          <i class="glyphicon glyphicon-trash"> Xóa</i>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  
+</section>

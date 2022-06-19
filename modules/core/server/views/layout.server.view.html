@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" ng-strict-di>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <title page-title></title>
+  <meta name="description" content="{{description}}">
+  <meta name="fragment" content="!">
+
+  <!-- Apple META -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <!-- Facebook META -->
+  <meta property="fb:app_id" content="{{facebookAppId}}">
+  <meta property="og:site_name" content="{{title}}">
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:url" content="{{url}}">
+  <meta property="og:image" content="{{logo}}">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter META -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="{{twitterUsername}}">
+  <meta name="twitter:title" content="{{title}}">
+  <meta name="twitter:description" content="{{description}}">
+  <meta name="twitter:image" content="{{logo}}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Fav Icon -->
+  <link href="/{{favicon}}" rel="shortcut icon" type="image/x-icon">
+
+  <!-- Manifest -->
+  <link href="/manifest.json" rel="manifest">
+
+  <!-- Application CSS Files -->
+  {{#each cssFiles}}<link rel="stylesheet" href="/{{this}}">{{/each}}
+
+
+</head>
+
+<body class="ng-cloak" style="background-color: #f1ffff;">
+   <!--<header ng-include="'/modules/core/client/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse" style="background-color:#243a76"></header>-->
+  <header ng-include="'/modules/core/client/views/header.client.view.html'" class="navbar navbar-fixed-top " ></header>
+  <section class="content" >
+    <section class="container" >
+      {{{block "content"}}}
+    </section>
+  </section>
+
+  <noscript>
+    <style>
+      [ng\:cloak], [ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+        display: block !important;
+      }
+    </style>
+    <div class="alert alert-warning">
+      <strong>This page requires JavaScript.</strong> Please enable it in your browser.
+    </div>
+  </noscript>
+
+  <!--Embedding The User Object-->
+  <script type="text/javascript">
+    var user = {{{ user }}};
+    var env = "{{ env }}";
+  </script>
+
+  <!--Load The Socket.io File-->
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+  <!--Application JavaScript Files-->
+    {{#each jsFiles}}<script type="text/javascript" src="/{{this}}"></script>{{/each}}
+  
+  <!--owasp config sync-->
+  <script type="text/javascript">
+    var sharedConfig = {{{ sharedConfig }}};
+    owaspPasswordStrengthTest.config(sharedConfig.owasp);
+  </script>
+
+  {{#if livereload}}
+  <!--Livereload script rendered -->
+  <script type="text/javascript" src="{{host}}:35729/livereload.js"></script>
+  {{/if}}
+</body>
+<div style="background: #fbfbfb; border-top: 1px solid #dadada ;margin: 0px auto;">
+  <div class="container" >
+    <div class="infor-bottom">
+      <ul>
+        <li>
+          <h3>CHÍNH SÁCH GIAO HÀNG</h3>
+          <p>Nhận hàng và thanh toán tại nhà</p>
+        </li>
+        <li>
+          <h3>ĐỔI TRẢ DỄ DÀNG</h3>
+          <p>1 đổi 1 trong 7 ngày</p>
+        </li>
+        <li>
+          <h3>THANH TOÁN TIỆN LỢI</h3>
+          <p>Trả tiền mặt, CK, trả góp 0%</p>
+        </li>
+        <li>
+          <h3>HỖ TRỢ NHIỆT TÌNH</h3>
+          <p>Tư vấn, giải đáp mọi thắc mắc</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div style="background: #fbfbfb; border-top: 1px dashed #dadada;">
+  <div class="container">
+    <div class="infor-bottom">
+      <ul>
+        <li>
+          <h4>GIỚI THIỆU MYCOM</h4>
+          <p>Giới thiệu công ty</p>
+          <p>Liên hệ hợp tác kinh doanh</p>
+          <p>Thông tin tuyển dụng</p>
+          <p>Tin tức</p>
+        </li>
+        <li>
+          <h4>HỖ TRỢ KHÁCH HÀNG</h4>
+          <p>Hướng dẫn mua hàng trực tuyến</p>
+          <p>Hướng dẫn thanh toán</p>
+          <p>Hướng dẫn mua hàng trả góp</p>
+          <p>In hóa đơn điện tử</p>
+          <p>Gửi yêu cầu bảo hành</p>
+          <p>Góp ý, Khiếu Nại</p>
+        </li>
+        <li>
+          <h4>CHÍNH SÁCH CHUNG</h4>
+          <p>Chính sách, quy định chung</p>
+          <p>Chính sách vận chuyển</p>
+          <p>Chính sách bảo hành</p>
+          <p>Chính sách cho doanh nghiệp</p>
+          <p>Chính sách hàng chính hãng</p>
+          <p>Bảo mật thông tin khách hàng</p>
+          <p>Chính sách nhập lại tính phí</p>
+        </li>
+        <li>
+          <h4>THÔNG TIN KHUYẾN MẠI</h4>
+          <p>Thông tin khuyến mại</p>
+          <p>Sản phẩm khuyến mại</p>
+          <p>Sản phẩm bán chạy</p>
+          <p>Sản phẩm mới</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div style="bottom: 0; width: 100%; box-sizing: border-box; background-color:rgb(27, 15, 81); color: white;">
+  <div class="container" style="width:1600px">
+    <div style="padding-top: 30px; padding-bottom: 30px;">
+      <p>© 2021 Công ty Cổ phần đầu tư công nghệ MYCOM</p>
+      <p>Địa chỉ: Trung hòa, Cầu Giấy, Hà Nội</p>
+      <p>GPĐKKD số 0101161194 do Sở KHĐT Tp.Hà Nội cấp ngày 31/8/2001</p>
+      <p>Email: info@MYCOMPUTER.vn. Điện thoại: 1900 1903</p>
+    </div>
+    
+  </div>
+</div>
+</html>

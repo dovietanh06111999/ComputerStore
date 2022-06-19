@@ -1,0 +1,76 @@
+<section ng-controller="ContactsController as vm" ng-init="vm.init()">
+  <div class="page-header">
+    <h1>Danh sách liên hệ</h1>
+    <!-- <button type="button" class="btn btn-primary" ui-sref="createContact">
+      Tạo liên hệ mới
+    </button> -->
+  </div>
+  <div class="panel-body">
+    <table
+      class="table table-condensed table-bordered table-hover"
+      ng-table="vm.contactTable"
+    >
+      <colgroup>
+        <col width="3%" />
+        <col width="10%" />
+        <col width="10%" />
+        <col width="10%" />
+        <col width="25%" />
+        <col width="7%" />
+      </colgroup>
+      <tr ng-repeat="contact in $data">
+        <td data-title="'STT'" class="text-center">{{ $index + 1 }}</td>
+        <td
+          class="text-center"
+          data-title="'Tên khách hàng'"
+          data-filter="{fullName: 'text'}"
+          sortable="'fullName'"
+        >
+          {{contact.fullName}}
+        </td>
+        <td
+          class="text-center"
+          data-title="'SĐT'"
+          data-filter="{phone: 'text'}"
+          sortable="'phone'"
+        >
+          {{contact.phone}}
+        </td>
+        <td
+          class="text-center"
+          data-title="'Ngày tạo'"
+          data-filter="{createdAt: 'text'}"
+          sortable="'createdAt'"
+        >
+          {{contact.createdAt}}
+        </td>
+        <td
+          class="text-center"
+          data-title="'Nội dung'"
+          data-filter="{detail: 'text'}"
+          sortable="'detail'"
+        >
+          {{contact.detail}}
+        </td>
+        <td class="text-center" data-title="'Tác vụ'">
+          <button
+            type="button"
+            class="btn btn-primary btn-xs"
+            ui-sref="editContact({contactId: contact._id})"
+          >
+          <i class="glyphicon glyphicon-pencil"> Sửa</i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger btn-xs"
+            ng-click="vm.remove($index, contact)"
+          >
+          <i class="glyphicon glyphicon-trash"> Xóa</i>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  
+</section>

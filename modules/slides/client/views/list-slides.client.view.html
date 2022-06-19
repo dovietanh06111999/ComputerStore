@@ -1,0 +1,65 @@
+<section ng-controller="SlidesController as vm" ng-init="vm.init()">
+  <div class="page-header">
+    <h1>Danh sách slide</h1>
+    <button type="button" class="btn btn-primary" ui-sref="createSlide">
+      Tạo slide mới
+    </button>
+  </div>
+  <div class="panel-body">
+    <table
+      class="table table-condensed table-bordered table-hover"
+      ng-table="vm.slideTable"
+    >
+      <colgroup>
+        <col width="5%" />
+        <col width="35%" />
+        <col width="30%" />
+        <col width="20%" />
+        <col width="10%" />
+      </colgroup>
+      <tr ng-repeat="slide in $data">
+        <td data-title="'STT'" class="text-center">{{ $index + 1 }}</td>
+        <td
+          class="text-center"
+          data-title="'Ảnh'"
+        >
+          <img src="{{slide.imgage}}" alt="{{slide.name}}" style="width:300px;height:150px;">
+        </td>
+        <td
+          class="text-center"
+          data-title="'Tên slide'"
+          data-filter="{name: 'text'}"
+          sortable="'name'"
+        >
+          {{slide.name}}
+        </td>
+        <td
+          class="text-center"
+          data-title="'Ngày tạo'"
+          data-filter="{createdAt: 'text'}"
+          sortable="'createdAt'"
+        >
+          {{slide.createdAt}}
+        </td>
+        <td class="text-center" data-title="'Tác vụ'">
+          <button
+            type="button"
+            class="btn btn-primary btn-xs"
+            ui-sref="editSlide({slideId: slide._id})"
+          >
+          <i class="glyphicon glyphicon-pencil"> Sửa</i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger btn-xs"
+            ng-click="vm.remove($index, slide)"
+          >
+          <i class="glyphicon glyphicon-trash"> Xóa</i>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  
+</section>

@@ -1,0 +1,147 @@
+<section ng-controller="OrdersController as vm" ng-init="vm.findOne()">
+    <div class="page-header"><h1>Xử lý đơn hàng</h1></div>
+
+      <div class="form-group row">
+          <label for="" class="col-sm-2 col-form-label">Họ tên </label>
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control"
+              id=""
+              placeholder="Họ và tên người nhận"
+              ng-model="vm.order.deliveryName"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Số điện thoại</label>
+          <div class="col-sm-10">
+            <input
+              id="phone"
+              type="text"
+              class="form-control"
+              placeholder="Nhập số điện thoại"
+              ng-model="vm.order.deliveryPhone"
+              readonly
+            ></input>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control"
+              id=""
+              placeholder="Nhập email"
+              ng-model="vm.order.deliveryEmail"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="" class="col-sm-2 col-form-label">Địa chỉ</label>
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control"
+              id=""
+              placeholder="Nhập địa chỉ"
+              ng-model="vm.order.deliveryAddress"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 control-label" for="">Phương thức thanh toán</label>
+          <div class="col-sm-10">
+            <select readonly ng-model="vm.order.deliveryPaymentMethod" class="form-control">
+              <option value="" disabled>Chọn phương thức thanh toán</option>
+              <option value="cashPayment" >Thanh toán tiền mặt khi nhận hàng (tiền mặt / quẹt thẻ ATM, Visa, Master)</option>
+              <option value="viaBankTransferPayment" >Thanh toán qua chuyển khoản qua tài khoản ngân hàng (khuyên dùng)</option>
+              <option value="onlinePayment" >Thanh toán trực tuyến (Bằng thẻ ATM/Visa/Master qua cổng VnPay)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 control-label" for="">Ghi chú</label>
+          <div class="col-sm-10">
+              <textarea readonly ng-model="vm.order.note" placeholder="Ghi chú" class="form-control" rows="5" id="comment"></textarea>
+          </div>
+        </div>    
+        <div ng-if="vm.authentication.user.roles.includes('admin')" class="form-group row">
+          <label class="col-sm-2 control-label" for="">Ghi chú của nhân viên</label>
+          <div class="col-sm-10">
+              <textarea ng-model="vm.order.updateNote" placeholder="Ghi chú của nhân viên" class="form-control" rows="5" id="comment"></textarea>
+          </div>
+        </div>
+        <hr>
+        <div>
+          <div class="panel-body">
+            <table
+              class="table table-condensed table-bordered table-hover"
+              ng-table="vm.cartTable"
+            >
+              <colgroup>
+                <col width="3%" />
+                <col width="45%" />
+                <col width="15%" />
+                <col width="5%" />
+                <col width="15%" />
+              </colgroup>
+              <tr ng-repeat="item in $data">
+                <td style="text-align: center;" data-title="'STT'" class="text-center">{{ $index + 1 }}</td>
+                <td
+                  data-title="'Tên sản phẩm'"
+                >
+                <div>
+                    <img src="{{item.productId.image}}" alt="" style="width:100px;height:100px;float: left; margin-right: 10px;">
+                    <div >{{item.productId.name}}</div>
+                </div>
+                  
+                </td>
+                <td
+                  class="text-center"
+                  data-title="'Đơn giá'"
+                  style="font-size:15px;font-weight: bold;"
+                >
+                  {{item.productId.price | number}}<b style="font-size: 16px;">₫</b>
+                  <span style="font-size: 12px; color: #888;text-decoration: line-through;">{{item.proPrice | number}} ₫</span>
+                </td>
+                <td
+                data-title="'Số lượng'"
+                class="text-center"
+                >
+                x {{item.buyQuantity}}
+                  </td>
+                  <td
+                  class="text-center"
+                  data-title="'Thành tiền'"
+                  style="color:red;font-size:15px;font-weight: bold;"
+                >
+                  {{item.summary | number:0}}<b style="font-size: 16px;">₫</b> 
+                </td>
+              </tr>
+              <tfoot>
+                <tr>
+                    <td style="font-size:20px;font-weight: bold;" colspan="4">Tổng tiền cần thanh toán:</td>
+                    <td style="font-size:20px;font-weight: bold;color:red; text-align: right;">{{vm.totalPrice| number:0}}<b style="font-size: 16px;">₫</b>
+                        <div style="font-style: italic;color: #222;font-size:15px; ">(Đã bao gồm VAT nếu có)</div>
+                    </td>
+                  </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div> 
+        <button ng-if="vm.order.status==='shipping'" class="btn btn-success" ng-click="vm.doneOrder()">Hoàn thành</button>
+        <br> <br>
+    <div ng-if="vm.authentication.user.roles.includes('admin')" class="form-group row">
+      <div class="col-sm-10">
+        <button ng-if="vm.order.status==='pending'"  class="btn btn-info" ng-click="vm.shipping()">Vận chuyển</button>
+        
+        <button ng-if="vm.order.status!=='done'" class="btn btn-danger" ng-click="vm.cancelOrder()">Hủy đơn hàng</button>
+      </div>
+    </div>
+  </section>
+  

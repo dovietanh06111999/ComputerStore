@@ -1,0 +1,139 @@
+<section ng-controller="OrdersController as vm">
+    <div class="page-header">
+      <h1>Thống kê doanh thu</h1>
+    </div>
+    <div style="width:800px">
+        <div class="form-group row">
+            <label class="col-sm-5 control-label" for="">Chọn loại thời gian<span style="color: red;">(*)</span></label>
+            <div class="col-sm-5">
+              <select ng-model="vm.typeTime" on-change="vm.show()" class="form-control">
+                <option value="" disabled>Chọn loại thời gian</option>
+                <option value="month" >Tháng</option>
+                <option value="day" >Ngày</option>
+              </select>
+            </div>
+          </div>
+        <div ng-if="vm.typeTime==='month'" class="form-group row">
+            <label for="" class="col-sm-5 col-form-label">Chọn tháng bắt đầu</label>
+            <div class="col-sm-5">
+              <input
+                type="month"
+                class="form-control"
+                id=""
+                ng-model="vm.startMonth"
+              />
+            </div>
+        </div>
+        <div ng-if="vm.typeTime==='month'" class="form-group row">
+            <label for="" class="col-sm-5 col-form-label">Chọn tháng kết thúc</label>
+            <div class="col-sm-5">
+              <input
+                type="month"
+                class="form-control"
+                id=""
+                ng-model="vm.endMonth"
+              />
+            </div>
+        </div>
+        <div ng-if="vm.typeTime==='day'" class="form-group row">
+            <label for="" class="col-sm-5 col-form-label">Chọn ngày bắt đầu</label>
+            <div class="col-sm-5">
+              <input
+                type="date"
+                class="form-control"
+                id=""
+                ng-model="vm.startDate"
+              />
+            </div>
+        </div>
+        <div ng-if="vm.typeTime==='day'" class="form-group row">
+            <label for="" class="col-sm-5 col-form-label">Chọn ngày kết thúc</label>
+            <div class="col-sm-5">
+              <input
+                type="date"
+                class="form-control"
+                id=""
+                ng-model="vm.endDate"
+              />
+            </div>
+        </div>
+        
+    </div>
+    <div class="form-group row" style="text-align: center;">
+        <button
+            type="button"
+            class="btn btn-success "
+            ng-click="vm.show()"
+          >
+        Xem thống kê
+          </button>
+    </div>
+    <hr>
+    <div class="panel-body">
+        <table
+          class="table table-condensed table-bordered table-hover"
+          ng-table="vm.revenueOrdersTable"
+        >
+          <colgroup>
+            <col width="5%" />
+            <col width="20%" />
+            <col width="20%" />
+            <col width="20%" />
+            <col width="20%" />
+            <col width="10%" />
+          </colgroup>
+          <tr ng-repeat="order in $data">
+            <td data-title="'STT'" class="text-center">{{ $index + 1 }}</td>
+            <td
+              class="text-center"
+              data-title="'Tên khách hàng'"
+              data-filter="{deliveryName: 'text'}"
+              sortable="'deliveryName'"
+            >
+              {{order.deliveryName}}
+            </td>
+            <td
+              class="text-center"
+              data-title="'Số lượng sản phẩm'"
+              sortable="'totalProduct'"
+            > 
+          {{order.totalProduct}}
+            </td>
+            <td
+            class="text-center"
+            data-title="'Ngày tạo'"
+            sortable="'createdAt'"
+          > 
+            {{order.createdAt}}
+          </td>
+            <td
+              class="text-center"
+              data-title="'Giá trị đơn hàng'"
+              sortable="'totalPrice'"
+            > 
+              {{order.totalPrice| number}}<b style="font-size: 16px;">₫</b>
+            </td>
+           
+            <td class="text-center" data-title="'Tác vụ'">
+              <button
+                type="button"
+                class="btn btn-primary btn-xs"
+                ui-sref="editOrder({orderId: order._id})"
+              >
+              <i class="glyphicon glyphicon-pencil"></i> Xử lý
+              </button>
+            </td>
+          </tr>
+          <tfoot>
+            <tr>
+                <td style="font-size:20px;font-weight: bold;" colspan="4">Tổng doanh thu:</td>
+                <td style="font-size:20px;font-weight: bold;color:red; text-align: right;">{{vm.summaryRevenue | number:0}}<b>₫</b>
+                </td>
+                <td></td>
+              </tr>
+          </tfoot>
+        </table>
+      </div>
+    <hr>
+  </section>
+  
